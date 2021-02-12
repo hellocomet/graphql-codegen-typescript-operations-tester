@@ -5,9 +5,9 @@
   "main": "./lib/index.js",
   "types": "./src/index.ts",
   "scripts": {
-    "test": "jest",
-    "prepublish": "npm run build",
-    "build": "tsc"
+    "test": "echo \"Meh\"",
+    "build": "tsc",
+    "lint": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
