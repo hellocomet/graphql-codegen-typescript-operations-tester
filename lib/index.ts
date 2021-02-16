@@ -1,5 +1,5 @@
 import { PluginFunction } from '@graphql-codegen/plugin-helpers'
-import { visit, concatAST, FragmentDefinitionNode, print, OperationDefinitionNode, DocumentNode } from 'graphql'
+import { visit, concatAST, FragmentDefinitionNode, print, OperationDefinitionNode, DocumentNode, graphql } from 'graphql'
 
 function getOperationFragments(
   node: OperationDefinitionNode | FragmentDefinitionNode,
@@ -77,5 +77,16 @@ export const plugin: PluginFunction = (schema, documents) => {
   return {
     prepend: imports,
     content: content,
+  }
+}
+
+export function graphqlRequester(schema: any) {
+  return async (query: string, variables?: null | undefined | Record<string, any>) => {
+    const res = await graphql({
+      variableValues: variables,
+      schema,
+      source: query,
+    })
+    return res
   }
 }
