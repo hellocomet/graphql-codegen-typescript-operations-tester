@@ -1,0 +1,8 @@
+api/tests
+build
+.next
+dist
+migrations
+node_modules
+generated
+coverage

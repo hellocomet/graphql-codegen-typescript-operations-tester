@@ -1,5 +1,12 @@
 import { PluginFunction } from '@graphql-codegen/plugin-helpers'
-import { visit, concatAST, FragmentDefinitionNode, print, OperationDefinitionNode, DocumentNode } from 'graphql'
+import {
+  concatAST,
+  DocumentNode,
+  FragmentDefinitionNode,
+  OperationDefinitionNode,
+  print,
+  visit,
+} from 'graphql'
 
 function getOperationFragments(
   node: OperationDefinitionNode | FragmentDefinitionNode,
@@ -27,12 +34,14 @@ function getOperationFragments(
 export const plugin: PluginFunction = (schema, documents) => {
   const imports = [`import { graphql, ExecutionResult } from 'graphql'`]
 
-  const allAst = concatAST(documents.reduce<DocumentNode[]>((acc, source) => {
-    if (source.document) {
-      acc.push(source.document)
-    }
-    return acc
-  }, []))
+  const allAst = concatAST(
+    documents.reduce<DocumentNode[]>((acc, source) => {
+      if (source.document) {
+        acc.push(source.document)
+      }
+      return acc
+    }, [])
+  )
   const allFragments = new Map<string, FragmentDefinitionNode>()
   visit(allAst, {
     FragmentDefinition(node) {
