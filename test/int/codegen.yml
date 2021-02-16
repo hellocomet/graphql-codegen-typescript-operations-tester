@@ -1,0 +1,9 @@
+overwrite: true
+schema: ['./test/int/schema.graphql']
+generates:
+  ./test/int/generated.ts:
+    documents: './test/int/documents.graphql'
+    plugins:
+      - typescript
+      - typescript-operations
+      - ../../dist/lib/index.js
