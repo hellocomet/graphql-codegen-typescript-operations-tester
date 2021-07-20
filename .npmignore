@@ -1,0 +1,27 @@
+# Common generated folders
+node_modules
+generated
+
+# Common development files
+.vscode/.*.redis
+.docker-volumes
+.env
+.env.local
+.env.*.local
+.eslintcache*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.mo
+
+# Mac users
+.DS_Store

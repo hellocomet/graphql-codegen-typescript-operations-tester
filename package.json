@@ -2,7 +2,7 @@
   "name": "graphql-codegen-typescript-operations-tester",
   "version": "0.0.6",
   "description": "graphql-code-generator plugin to generate test functions on operations",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
     "codegen": "graphql-codegen --config ./test/int/codegen.yml",
