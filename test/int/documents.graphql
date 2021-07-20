@@ -1,5 +1,5 @@
-query getBooks {
-  books {
+query getBooks($var1: String!) {
+  books(var1: $var1) {
     title
     author {
       firstname

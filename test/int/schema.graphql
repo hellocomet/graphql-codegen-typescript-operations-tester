@@ -10,5 +10,5 @@ type Book {
 }
 
 type Query {
-  books: [Book]
+  books(var1: String!): [Book]
 }
