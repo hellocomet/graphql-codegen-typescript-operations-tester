@@ -19,4 +19,6 @@ jobs:
         run: |
           npm ci
           npm run build
+          npm run codegen
+          npm run lint
           npm test
