@@ -1,6 +1,6 @@
 {
   "name": "graphql-codegen-typescript-operations-tester",
-  "version": "0.0.7",
+  "version": "0.0.8-beta.0",
   "description": "graphql-code-generator plugin to generate test functions on operations",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
@@ -53,9 +53,12 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@graphql-codegen/plugin-helpers": "^1.18.8"
+    "@graphql-codegen/plugin-helpers": "^1.18.8",
+    "change-case-all": "^1.0.14"
   },
   "peerDependencies": {
+    "@graphql-codegen/typescript": ">=1.21.1",
+    "@graphql-codegen/typescript-operations": ">=1.17.8",
     "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
   }
 }

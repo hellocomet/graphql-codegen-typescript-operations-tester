@@ -1,8 +1,13 @@
 import { PluginFunction } from '@graphql-codegen/plugin-helpers'
+import { pascalCase } from 'change-case-all'
 import {
   concatAST,
   DocumentNode,
+  ExecutionResult,
   FragmentDefinitionNode,
+  graphql,
+  GraphQLArgs,
+  GraphQLSchema,
   OperationDefinitionNode,
   print,
   visit,
@@ -32,7 +37,7 @@ function getOperationFragments(
 }
 
 export const plugin: PluginFunction = (schema, documents) => {
-  const imports = [`import { graphql, ExecutionResult } from 'graphql'`]
+  const imports = [`import { request, Args } from 'graphql-codegen-typescript-operations-tester'`]
 
   const allAst = concatAST(
     documents.reduce<DocumentNode[]>((acc, source) => {
@@ -55,28 +60,26 @@ export const plugin: PluginFunction = (schema, documents) => {
       if (!node.name) return
 
       const type = node.operation === 'mutation' ? 'Mutation' : 'Query'
-      const name = `${node.name.value[0].toUpperCase()}${node.name.value.substr(
-        1,
-        node.name.value.length - 1
-      )}`
+
+      // Mimic the default naming convention.
+      // See https://www.graphql-code-generator.com/docs/getting-started/naming-convention#namingconvention
+      const name = pascalCase(`${node.name.value}${type}`)
 
       const fragments = getOperationFragments(node, allFragments)
       const fragmentsStr =
         fragments.size > 0 ? `${Array.from(fragments.values()).map(print)}\n` : ''
 
       lines.push(``)
-      lines.push(`export const ${name}${type}Source: string = \``)
+      lines.push(`export const ${name}Source: string = \``)
       lines.push(`${fragmentsStr}${print(node)}\`;`)
       lines.push(``)
-      lines.push(`export function test${name}${type}(`)
-      lines.push(`  graphqlRequester: (`)
-      lines.push(`    query: string,`)
-      lines.push(`    variables: ${name}${type}Variables`)
-      lines.push(`  ) => Promise<ExecutionResult<${name}${type}>>,`)
-      lines.push(`  variables: ${name}${type}Variables`)
+      lines.push(`export function test${name}(`)
+      lines.push(`  graphqlArgs: Args,`)
+      lines.push(`  variables?: ${name}Variables`)
       lines.push(`) {`)
-      lines.push(`  const query = ${name}${type}Source`)
-      lines.push(`  return graphqlRequester(query, variables)`)
+      lines.push(
+        `  return request<${name}>({ ...graphqlArgs, source: ${name}Source, variableValues: variables })`
+      )
       lines.push(`};`)
     },
   })
@@ -87,4 +90,12 @@ export const plugin: PluginFunction = (schema, documents) => {
     prepend: imports,
     content: content,
   }
+}
+
+export type Args = { schema: GraphQLSchema } & Partial<GraphQLArgs>
+
+export async function request<TData extends Record<string, unknown> = Record<string, unknown>>(
+  graphqlArgs: GraphQLArgs
+): Promise<ExecutionResult<TData>> {
+  return graphql(graphqlArgs) as Promise<ExecutionResult<TData>>
 }
