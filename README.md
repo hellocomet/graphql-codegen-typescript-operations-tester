@@ -37,41 +37,13 @@ type Query {
 }
 ```
 
-Create a graphQL requester somewhere in your tests
-
 ```typescript
-import { graphql, GraphQLSchema, ExecutionResult } from 'graphql'
 import { testGetBooksQuery } from './generated/tests.ts'
 import { schema } from 'path/to/my/schema'
 
-type Options = {
-  silenceError?: boolean
-}
-
-export function graphqlRequester<TResultDataType>(options: Options = {}) {
-  return async (
-    query: string,
-    variables?: Record<string, any>
-  ): Promise<ExecutionResult<TResultDataType>> => {
-    const result = await graphql({
-      variableValues: variables,
-      schema,
-      source: query,
-    })
-
-    if (!options.silenceError && result.errors?.length > 0) {
-      result.errors.forEach((error) => console.error(error))
-    }
-
-    // Allow typing the return value of the query which is by default:
-    // `Record<string, any>`.
-    return result as ExecutionResult<TResultDataType>
-  }
-}
-
 describe('Test something cool', () => {
   it('testGetBooksQuery should return something', async () => {
-    const res = await testGetBooksQuery(graphqlRequester())
+    const res = await testGetBooksQuery({ schema })
     expect(res.data?.books).toBeAwesome()
   })
 })
