@@ -37,6 +37,21 @@ type Query {
 }
 ```
 
+And operations
+
+```graphql
+query getBooks($var1: String!) {
+  books(var1: $var1) {
+    title
+    author {
+      firstname
+      lastname
+      fullname
+    }
+  }
+}
+```
+
 ```typescript
 import { testGetBooksQuery } from './generated/tests.ts'
 import { schema } from 'path/to/my/schema'
