@@ -8,17 +8,19 @@
 
 `npm i -D @graphql-codegen/typescript @graphql-codegen/typescript-operations graphql-codegen-typescript-operations-tester`
 
-In `codegen.yml`
+## Example
 
+codegen.yml
 ```yaml
+schema: ['./schema.graphql']
+
 generated/tests.ts:
+  documents: './documents.graphql'
   plugins:
     - typescript
     - typescript-operations
     - graphql-codegen-typescript-operations-tester
 ```
-
-Example
 
 schema.graphql
 ```graphql
@@ -38,7 +40,7 @@ type Query {
 }
 ```
 
-operations.graphql
+documents.graphql
 ```graphql
 query getBooks($var1: String!) {
   books(var1: $var1) {
