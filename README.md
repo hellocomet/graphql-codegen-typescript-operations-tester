@@ -18,8 +18,9 @@ generated/tests.ts:
     - graphql-codegen-typescript-operations-tester
 ```
 
-Given a schema like so
+Example
 
+schema.graphql
 ```graphql
 type Author {
   firstname: String
@@ -37,8 +38,7 @@ type Query {
 }
 ```
 
-And operations
-
+operations.graphql
 ```graphql
 query getBooks($var1: String!) {
   books(var1: $var1) {
@@ -52,6 +52,7 @@ query getBooks($var1: String!) {
 }
 ```
 
+test.spec.ts
 ```typescript
 import { testGetBooksQuery } from './generated/tests.ts'
 import { schema } from 'path/to/my/schema'
