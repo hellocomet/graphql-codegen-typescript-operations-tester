@@ -36,8 +36,14 @@ function getOperationFragments(
   return fragments
 }
 
-export const plugin: PluginFunction = (schema, documents) => {
+type Config = {
+  prefix?: string
+}
+
+export const plugin: PluginFunction<Config> = (schema, documents, config) => {
   const imports = [`import { request, Args } from 'graphql-codegen-typescript-operations-tester'`]
+
+  const prefix = config.prefix || 'test'
 
   const allAst = concatAST(
     documents.reduce<DocumentNode[]>((acc, source) => {
@@ -73,7 +79,7 @@ export const plugin: PluginFunction = (schema, documents) => {
       lines.push(`export const ${name}Source: string = \``)
       lines.push(`${fragmentsStr}${print(node)}\`;`)
       lines.push(``)
-      lines.push(`export function test${name}(`)
+      lines.push(`export function ${prefix}${name}(`)
       lines.push(`  graphqlArgs: Args,`)
       lines.push(`  variables?: ${name}Variables`)
       lines.push(`) {`)

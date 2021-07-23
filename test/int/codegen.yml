@@ -7,3 +7,5 @@ generates:
       - typescript
       - typescript-operations
       - ../../dist/index.js
+    config:
+      prefix: test

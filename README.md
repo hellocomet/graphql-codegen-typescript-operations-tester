@@ -11,6 +11,7 @@
 ## Example
 
 codegen.yml
+
 ```yaml
 schema: ['./schema.graphql']
 
@@ -20,9 +21,12 @@ generated/tests.ts:
     - typescript
     - typescript-operations
     - graphql-codegen-typescript-operations-tester
+  config:
+    prefix: test
 ```
 
 schema.graphql
+
 ```graphql
 type Author {
   firstname: String
@@ -41,6 +45,7 @@ type Query {
 ```
 
 documents.graphql
+
 ```graphql
 query getBooks($var1: String!) {
   books(var1: $var1) {
@@ -55,6 +60,7 @@ query getBooks($var1: String!) {
 ```
 
 test.spec.ts
+
 ```typescript
 import { testGetBooksQuery } from './generated/tests.ts'
 import { schema } from 'path/to/my/schema'
