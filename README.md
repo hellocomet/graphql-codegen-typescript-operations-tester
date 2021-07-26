@@ -67,7 +67,7 @@ import { schema } from 'path/to/my/schema'
 
 describe('Test something cool', () => {
   it('testGetBooksQuery should return something', async () => {
-    const res = await testGetBooksQuery({ schema })
+    const res = await testGetBooksQuery({ schema }, { var1: 'hello' })
     expect(res.data?.books).toBeAwesome()
   })
 })
